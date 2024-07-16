@@ -14,7 +14,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class SecurityTokenConfig {
     protected final JwtConfiguration jwtConfiguration;
-    protected final AuthenticationManager authenticationManager;
 
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -24,7 +23,7 @@ public class SecurityTokenConfig {
                         (req, resp, e) -> resp.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(jwtConfiguration.getLoginUrl()).permitAll()
-                        .requestMatchers("/sbms/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/sbms/v1/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
     }
 }

@@ -50,8 +50,8 @@ public class TokenCreator {
         log.info("Creating the JWTClaimSet Object for '{}'", applicationUser);
         return new JWTClaimsSet.Builder()
                 .subject(applicationUser.getUsername())
-                .claim("authorities", auth.getAuthorities()
-                        .stream().map(GrantedAuthority::getAuthority).collect(toList()))
+                .claim("authorities", auth.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(toList()))
+                .claim("userId", applicationUser.getId())
                 .issuer("http://mmxxiv.project")
                 .issueTime(new Date())
                 .expirationTime(new Date(System.currentTimeMillis() + (jwtConfiguration.getExpiration() * 1000L)))
