@@ -1,8 +1,8 @@
-package mmxxiv.project.gateway.security.config;
+package mmxxiv.project.sbms.security.config;
 
 import mmxxiv.project.core.property.JwtConfiguration;
-import mmxxiv.project.gateway.security.filter.GatewayJwtTokenAuthorizationFilter;
 import mmxxiv.project.security.config.SecurityTokenConfig;
+import mmxxiv.project.security.filter.JwtTokenAuthorizationFilter;
 import mmxxiv.project.security.token.converter.TokenConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,17 +10,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
-public class SecurityConfig extends SecurityTokenConfig {
+public class SecurityCredentialsConfig extends SecurityTokenConfig {
     private final TokenConverter tokenConverter;
 
-    public SecurityConfig(JwtConfiguration jwtConfiguration, AuthenticationManager authenticationManager, TokenConverter tokenConverter) {
+    public SecurityCredentialsConfig(JwtConfiguration jwtConfiguration, AuthenticationManager authenticationManager, TokenConverter tokenConverter) {
         super(jwtConfiguration, authenticationManager);
         this.tokenConverter = tokenConverter;
     }
 
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterAfter(new GatewayJwtTokenAuthorizationFilter(jwtConfiguration, tokenConverter), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(new JwtTokenAuthorizationFilter(jwtConfiguration, tokenConverter), UsernamePasswordAuthenticationFilter.class);
         super.configure(http);
     }
+
 }

@@ -14,7 +14,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class SecurityTokenConfig {
     protected final JwtConfiguration jwtConfiguration;
-
+    protected final AuthenticationManager authenticationManager;
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
@@ -24,6 +24,7 @@ public class SecurityTokenConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(jwtConfiguration.getLoginUrl()).permitAll()
                         .requestMatchers("/sbms/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/auth/user/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated());
     }
 }

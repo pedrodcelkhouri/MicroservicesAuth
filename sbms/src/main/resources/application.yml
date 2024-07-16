@@ -26,3 +26,7 @@ spring:
     url: jdbc:mysql://localhost:3309/db0?&createDatabaseIfNotExist=true
     username: root
     password: example
+
+jwt:
+  config:
+    type: signed

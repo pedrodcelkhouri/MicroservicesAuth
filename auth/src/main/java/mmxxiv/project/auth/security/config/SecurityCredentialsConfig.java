@@ -32,7 +32,7 @@ public class SecurityCredentialsConfig extends SecurityTokenConfig {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager, jwtConfiguration, tokenCreator))
+        http    .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager, jwtConfiguration, tokenCreator))
                 .addFilterAfter(new JwtTokenAuthorizationFilter(jwtConfiguration, tokenConverter), UsernamePasswordAuthenticationFilter.class);
         super.configure(http);
     }
@@ -46,3 +46,4 @@ public class SecurityCredentialsConfig extends SecurityTokenConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
